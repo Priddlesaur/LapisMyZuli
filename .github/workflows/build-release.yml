@@ -8,6 +8,9 @@ on:
     branches:
     - main
 
+permissions:
+  contents: write
+
 jobs:
   # Build the project and capture the build artifacts
   build:
