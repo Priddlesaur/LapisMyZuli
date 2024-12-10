@@ -57,12 +57,12 @@ jobs:
 
       - name: create release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ steps.semver.outputs.version }}
-          release_name: Release ${{ steps.semver.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.semver.outputs.version }}
+          name: Release ${{ steps.semver.outputs.version }}
+          generateReleaseNotes: true
           draft: false
           prerelease: false
 
