@@ -42,7 +42,7 @@ jobs:
           path: build/libs/
 
   # Create a GitHub release and upload the build artifacts
-  release:
+  release-and-publish:
     needs: build
     runs-on: ubuntu-22.04
     steps:
@@ -70,24 +70,6 @@ jobs:
           prerelease: false
           artifacts: lapismyzuli-${{ steps.semver.outputs.version }}.jar
 
-  # Publish the release to Modrinth
-  publish:
-    name: publish
-    needs: release
-    runs-on: ubuntu-22.04
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-
-      - name: get version name
-        id: semver
-        run: echo ::set-output name=version::$(grep mod_version gradle.properties | cut -d= -f2)
-
-      - name: download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: lapismyzuli-release-artifacts-${{ steps.semver.outputs.version }}
-
       - name: publish release to modrinth
         uses: cloudnode-pro/modrinth-publish@2.0.0
         with:
@@ -95,6 +77,7 @@ jobs:
           project: WbIOf2fM
           name: ${{ steps.semver.outputs.version }}
           version: ${{ steps.semver.outputs.version }}
+          changelog: ${{ steps.create_release.outputs.releaseNotes }}
           loaders: |-
             fabric
           game-versions: |-
