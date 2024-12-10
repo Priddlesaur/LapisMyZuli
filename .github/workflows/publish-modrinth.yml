@@ -1,13 +1,12 @@
-﻿name: Publish
+﻿name: Publish to Modrinth
 
 on:
   release:
-    types: [released]
-  workflow_dispatch:
+    types: [published]
 
 jobs:
   publish:
-    name: Publish
+    name: publish
     runs-on: ubuntu-22.04
     steps:
       - name: checkout repository

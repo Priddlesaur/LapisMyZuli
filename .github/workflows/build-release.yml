@@ -1,4 +1,4 @@
-name: Build
+name: Build and Release
 
 on:
   push:
@@ -62,7 +62,7 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PERSONAL }}
           tag: ${{ steps.semver.outputs.version }}
           name: Release ${{ steps.semver.outputs.version }}
           generateReleaseNotes: true
