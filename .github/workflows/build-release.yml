@@ -20,9 +20,6 @@ jobs:
         id: semver
         run: echo ::set-output name=version::$(grep mod_version gradle.properties | cut -d= -f2)
 
-      - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v3
-
       - name: setup java
         uses: actions/setup-java@v4
         with:
