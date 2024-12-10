@@ -99,4 +99,4 @@ jobs:
             fabric
           game-versions: |-
             1.21.4
-          files: build/libs/lapismyzuli-${{ steps.semver.outputs.version }}.jar
+          files: lapismyzuli-${{ steps.semver.outputs.version }}.jar
