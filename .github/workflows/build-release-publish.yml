@@ -77,7 +77,8 @@ jobs:
           project: WbIOf2fM
           name: ${{ steps.semver.outputs.version }}
           version: ${{ steps.semver.outputs.version }}
-          changelog: ${{ steps.create_release.outputs.releaseNotes }}
+          changelog: |-
+            See the [GitHub Release Notes](https://github.com/Priddlesaur/LapisMyZuli/releases/tag/v${{ steps.semver.outputs.version }}) for the full changelog.
           loaders: |-
             fabric
           game-versions: |-
