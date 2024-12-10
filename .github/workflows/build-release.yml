@@ -56,7 +56,7 @@ jobs:
 
       - name: create release
         id: create_release
-        uses: actions/create-release@v4
+        uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.semver.outputs.version }}
           release_name: Release ${{ steps.semver.outputs.version }}
@@ -64,7 +64,7 @@ jobs:
           prerelease: false
 
       - name: upload artifacts
-        uses: actions/upload-release-asset@v4
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/libs/lapismyzuli-${{ steps.semver.outputs.version }}.jar
