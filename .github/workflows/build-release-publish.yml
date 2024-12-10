@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build, Release and Publish
 
 on:
   push:
@@ -63,9 +63,40 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GH_PERSONAL }}
-          tag: ${{ steps.semver.outputs.version }}
-          name: Release ${{ steps.semver.outputs.version }}
+          tag: v${{ steps.semver.outputs.version }}
+          name: Release v${{ steps.semver.outputs.version }}
           generateReleaseNotes: true
           draft: false
           prerelease: false
           artifacts: lapismyzuli-${{ steps.semver.outputs.version }}.jar
+
+  # Publish the release to Modrinth
+  publish:
+    name: publish
+    needs: release
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: get version name
+        id: semver
+        run: echo ::set-output name=version::$(grep mod_version gradle.properties | cut -d= -f2)
+
+      - name: download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: lapismyzuli-release-artifacts-${{ steps.semver.outputs.version }}
+
+      - name: publish release to modrinth
+        uses: cloudnode-pro/modrinth-publish@2.0.0
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: WbIOf2fM
+          name: ${{ steps.semver.outputs.version }}
+          version: ${{ steps.semver.outputs.version }}
+          loaders: |-
+            fabric
+          game-versions: |-
+            1.21.4
+          files: build/libs/lapismyzuli-${{ steps.semver.outputs.version }}.jar
