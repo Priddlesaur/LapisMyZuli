@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "lapismyzuli",
+	"version": "${version}",
+	"name": "Lapis My Zuli",
+	"description": "Automatically transfers Lapis Lazuli from your inventory to the enchanting table slot.",
+	"authors": [
+		{
+			"name": "Priddle",
+			"contact": {
+				"homepage": "https://modrinth.com/user/Priddle"
+			}
+		}
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/project/lapismyzuli",
+		"sources": "https://github.com/Priddlesaur/LapisMyZuli",
+		"issues": "https://github.com/Priddlesaur/LapisMyZuli/issues"
+	},
+	"license": "GNU GPLv3",
+	"icon": "assets/lapismyzuli/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"nl.priddle.lapismyzuli.LapisMyZuli"
+		]
+	},
+	"mixins": [
+		"lapismyzuli.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

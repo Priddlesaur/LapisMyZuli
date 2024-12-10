@@ -1,0 +1,72 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  # Build the project and capture the build artifacts
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: get version name
+        id: semver
+        run: echo ::set-output name=version::$(grep mod_version gradle.properties | cut -d= -f2)
+
+      - name: validate gradle wrapper
+        uses: gradle/wrapper-validation-action@v4
+
+      - name: setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: build
+        run: ./gradlew build -Pbuild.release=true
+
+      - name: capture build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lapismyzuli-release-artifacts-${{ steps.semver.outputs.version }}
+          path: build/libs/
+
+  # Create a GitHub release and upload the build artifacts
+  release:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: lapismyzuli-release-artifacts-${{ steps.semver.outputs.version }}
+
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v4
+        with:
+          tag_name: ${{ steps.semver.outputs.version }}
+          release_name: Release ${{ steps.semver.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: upload artifacts
+        uses: actions/upload-release-asset@v4
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/libs/lapismyzuli-${{ steps.semver.outputs.version }}.jar
+          asset_name: lapismyzuli-${{ steps.semver.outputs.version }}.jar
+          asset_content_type: application/java-archive
