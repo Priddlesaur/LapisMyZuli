@@ -60,7 +60,7 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.GH_PERSONAL }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ needs.build.outputs.version }}
           name: Release v${{ needs.build.outputs.version }}
           generateReleaseNotes: true
