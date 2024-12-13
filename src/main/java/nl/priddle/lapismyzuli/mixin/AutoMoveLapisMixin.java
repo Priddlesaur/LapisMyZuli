@@ -10,6 +10,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentScreen.class)
 @SuppressWarnings("unused")
 public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreenHandler> {
-    private static final int ENCHANTMENT_LAPIS_SLOT = 1;
-    private static final int INVENTORY_START_INDEX = 2;
+    @Unique private static final int ENCHANTMENT_LAPIS_SLOT = 1;
+    @Unique private static final int INVENTORY_START_INDEX = 2;
 
     public AutoMoveLapisMixin(EnchantmentScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -35,6 +36,7 @@ public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreen
         moveLapisToEnchantmentTable(this.handler.slots);
     }
 
+    @Unique
     private void moveLapisToEnchantmentTable(DefaultedList<Slot> slots) {
         // Get the lapis slot in the enchantment table.
         Slot lapisSlot = slots.get(ENCHANTMENT_LAPIS_SLOT);
@@ -43,8 +45,7 @@ public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreen
         for (int i = INVENTORY_START_INDEX; i < slots.size(); i++) {
 
             // Check if the lapis slot is full.
-            boolean isFull = lapisSlot.hasStack() && lapisSlot.getStack().getCount() == lapisSlot.getMaxItemCount();
-            if (isFull) {
+            if (lapisSlot.hasStack() && lapisSlot.getStack().getCount() >= lapisSlot.getMaxItemCount()) {
                 break;
             }
 
