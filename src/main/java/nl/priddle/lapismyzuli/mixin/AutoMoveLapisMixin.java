@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentScreen.class)
 @SuppressWarnings("unused")
 public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreenHandler> {
-    @Unique private static final int ENCHANTMENT_LAPIS_SLOT = 1;
+    @Unique private static final int ENCHANTMENT_LAPIS_SLOT_INDEX = 1;
     @Unique private static final int INVENTORY_START_INDEX = 2;
 
     public AutoMoveLapisMixin(EnchantmentScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -39,7 +39,7 @@ public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreen
     @Unique
     private void moveLapisToEnchantmentTable(DefaultedList<Slot> slots) {
         // Get the lapis slot in the enchantment table.
-        Slot lapisSlot = slots.get(ENCHANTMENT_LAPIS_SLOT);
+        Slot lapisSlot = slots.get(ENCHANTMENT_LAPIS_SLOT_INDEX);
 
         // Find all lapis in the inventory and move them to the lapis slot.
         for (int i = INVENTORY_START_INDEX; i < slots.size(); i++) {
