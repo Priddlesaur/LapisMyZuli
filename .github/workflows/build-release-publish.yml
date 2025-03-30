@@ -87,5 +87,5 @@ jobs:
         loaders: |-
           fabric
         game-versions: |-
-          1.21.4
+          1.21.5
         files: lapismyzuli-${{ needs.build.outputs.version }}.jar
