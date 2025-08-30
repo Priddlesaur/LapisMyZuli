@@ -76,7 +76,7 @@ jobs:
         name: lapismyzuli-release-artifacts-${{ needs.build.outputs.version }}
 
     - name: publish release to modrinth
-      uses: cloudnode-pro/modrinth-publish@2.0.0
+      uses: cloudnode-pro/modrinth-publish@v2
       with:
         token: ${{ secrets.MODRINTH_TOKEN }}
         project: WbIOf2fM
@@ -87,5 +87,5 @@ jobs:
         loaders: |-
           fabric
         game-versions: |-
-          1.21.5
+          1.21.8
         files: lapismyzuli-${{ needs.build.outputs.version }}.jar
