@@ -31,7 +31,7 @@ public abstract class AutoMoveLapisMixin extends HandledScreen<EnchantmentScreen
         moveLapisToEnchantmentTable(this.handler.slots);
     }
 
-    @Inject(at = @At(value = "RETURN", ordinal = 0), method = "mouseClicked(DDI)Z")
+    @Inject(at = @At(value = "RETURN", ordinal = 0), method = "mouseClicked")
     public void mouseClicked(CallbackInfoReturnable<Boolean> info) {
         moveLapisToEnchantmentTable(this.handler.slots);
     }
